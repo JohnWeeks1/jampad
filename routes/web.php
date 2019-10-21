@@ -19,12 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['namespace' => 'Api', 'prefix' => 'api', 'as' => 'api.'], function () {
-
-    Route::group(['namespace' => 'Users'], function () {
-
-        Route::get('/user', 'UserController@index')->name('user');
-    });
-});
+//Route::group(['namespace' => 'Api', 'prefix' => 'api', 'as' => 'api.'], function () {
+//
+//    Route::group(['namespace' => 'Users'], function () {
+//
+//        Route::get('/user', 'UserController@index')->name('user');
+//    });
+//});
 
 

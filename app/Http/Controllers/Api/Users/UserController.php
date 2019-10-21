@@ -3,10 +3,10 @@
 
 namespace App\Http\Controllers\Api\Users;
 
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
