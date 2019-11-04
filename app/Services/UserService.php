@@ -25,6 +25,13 @@ class UserService extends Controller
         $this->repository = $user;
     }
 
+    /**
+     * Find user by id.
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
     public function findOrFail($id)
     {
         return $this->repository->findOrFail($id);
