@@ -45,8 +45,9 @@ class UserController extends Controller
     {
         $user = $this->userService->findOrFail($id);
 
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        $user->first_name  = $request->first_name;
+        $user->last_name   = $request->last_name;
+        $user->description = $request->description;
 
         $user->save();
 
