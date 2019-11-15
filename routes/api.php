@@ -24,5 +24,6 @@ Route::group([
     ], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'Api\Users\UserController@index');
+        Route::patch('user/{id}', 'Api\Users\UserController@update');
     });
 });

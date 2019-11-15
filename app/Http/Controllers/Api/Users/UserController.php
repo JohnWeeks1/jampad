@@ -40,4 +40,18 @@ class UserController extends Controller
 
         return New UserResource($user);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = $this->userService->findOrFail($id);
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'OK'
+        ]);
+    }
 }
