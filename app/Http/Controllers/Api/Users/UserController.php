@@ -41,6 +41,20 @@ class UserController extends Controller
         return New UserResource($user);
     }
 
+    public function storeImage(Request $request, $id)
+    {
+        $user = $this->userService->findOrFail($id);
+
+        $user->image = $request->image;
+
+        $user->save();
+
+
+        return response()->json([
+            'image' => $request->image
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $user = $this->userService->findOrFail($id);
@@ -48,21 +62,6 @@ class UserController extends Controller
         $user->first_name  = $request->first_name;
         $user->last_name   = $request->last_name;
         $user->description = $request->description;
-
-//        if ($request->hasFile('image')) {
-//            $image      = $request->file('image');
-//            $fileName   = time() . '.' . $image->getClientOriginalExtension();
-//
-//            $img = Image::make($image->getRealPath());
-//            $img->resize(120, 120, function ($constraint) {
-//                $constraint->aspectRatio();
-//            });
-//
-//            $img->stream(); // <-- Key point
-//
-//            //dd();
-//            Storage::disk('local')->put('images/'.$fileName, $img, 'public');
-//        }
 
         $user->save();
 
