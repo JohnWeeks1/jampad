@@ -25,6 +25,6 @@ Route::group([
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'Api\Users\UserController@index');
         Route::patch('user/{id}', 'Api\Users\UserController@update');
-        Route::post('user/{id}', 'Api\Users\UserController@storeImage');
+        Route::post('user/{id}', 'Api\Users\UserController@store');
     });
 });

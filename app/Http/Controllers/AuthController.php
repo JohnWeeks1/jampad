@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -19,12 +20,15 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
             'email'      => 'required|string|email|unique:users',
             'password'   => 'required|string|confirmed'
         ]);
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()],422);
+        }
 
         $user = new User([
             'first_name' => $request->first_name,

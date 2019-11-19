@@ -41,8 +41,12 @@ class UserController extends Controller
         return New UserResource($user);
     }
 
-    public function storeImage(Request $request, $id)
+    public function store(Request $request, $id)
     {
+        return response()->json([
+            'image' => $request->file('image')
+        ]);
+
         $user = $this->userService->findOrFail($id);
 
         $user->image = $request->image;
