@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -41,21 +43,37 @@ class UserController extends Controller
         return New UserResource($user);
     }
 
+    /**
+     * Store user data or image.
+     * 
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request, $id)
     {
-        return response()->json([
-            'image' => $request->file('image')
-        ]);
+        $image = Image::make($request->file('image'));
 
-        $user = $this->userService->findOrFail($id);
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
 
-        $user->image = $request->image;
+        $image->crop(
+            ceil($request->width),
+            ceil($request->height),
+            ceil($request->left),
+            ceil($request->top)
+        );
+        $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
+        $image->save(public_path() . '/images/users/' . $name);
+
+        $user = $this->userService->findOrFail($request->user()->id);
+        $user->image = $name;
 
         $user->save();
 
-
         return response()->json([
-            'image' => $request->image
+            'response' => 'Saved Image'
         ]);
     }
 

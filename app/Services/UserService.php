@@ -36,4 +36,9 @@ class UserService extends Controller
     {
         return $this->repository->findOrFail($id);
     }
+
+    public function fullName(Request $request)
+    {
+        return $request->user()->first_name . ' ' . $request->user()->last_name;
+    }
 }
