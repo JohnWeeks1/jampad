@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -45,7 +43,7 @@ class UserController extends Controller
 
     /**
      * Store user data or image.
-     * 
+     *
      * @param Request $request
      * @param $id
      *
@@ -53,42 +51,21 @@ class UserController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $image = Image::make($request->file('image'));
+        $user = $this->userService->findOrFail($id);
 
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
+        if($request->file('image')) {
+            $this->userService->updateUserImage($user, $request);
 
-        $image->crop(
-            ceil($request->width),
-            ceil($request->height),
-            ceil($request->left),
-            ceil($request->top)
-        );
-        $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
-        $image->save(public_path() . '/images/users/' . $name);
-
-        $user = $this->userService->findOrFail($request->user()->id);
-        $user->image = $name;
-
-        $user->save();
-
-        return response()->json([
-            'response' => 'Saved Image'
-        ]);
+            return response()->json([
+                'user_image' => 'OK'
+            ]);
+        }
     }
 
     public function update(Request $request, $id)
     {
         $user = $this->userService->findOrFail($id);
 
-        $user->first_name  = $request->first_name;
-        $user->last_name   = $request->last_name;
-        $user->description = $request->description;
-
-        $user->save();
-
-        return response()->json([
-            'message' => 'OK'
-        ]);
+        $this->userService->updateUserDetails($user, $request);
     }
 }

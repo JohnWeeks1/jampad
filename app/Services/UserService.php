@@ -5,6 +5,7 @@ namespace App\Services;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 class UserService extends Controller
 {
@@ -40,5 +41,35 @@ class UserService extends Controller
     public function fullName(Request $request)
     {
         return $request->user()->first_name . ' ' . $request->user()->last_name;
+    }
+
+    public function updateUserDetails($user, $request)
+    {
+        $user->first_name  = $request->first_name;
+        $user->last_name   = $request->last_name;
+        $user->description = $request->description;
+
+        $user->save();
+    }
+
+    public function updateUserImage($user, $request)
+    {
+        $image = Image::make($request->file('image'));
+
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+
+        $image->crop(
+            ceil($request->width),
+            ceil($request->height),
+            ceil($request->left),
+            ceil($request->top)
+        );
+        $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
+        $image->save(public_path() . '/images/users/' . $name);
+
+        $user->image = $name;
+
+        $user->save();
     }
 }
