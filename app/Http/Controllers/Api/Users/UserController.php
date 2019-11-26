@@ -51,7 +51,7 @@ class UserController extends Controller
     public function image(Request $request)
     {
         $destination = public_path() . '/images/users/' . $request->user()->image;
-        return response()->file($destination, ['Content-Type' => 'image/jpg']);
+        return response()->file($destination);
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $user = $this->userService->findOrFail($id);
 
-        if($request->file('image')) {
+        if($request->hasFile('image')) {
             $this->userService->updateUserImage($user, $request);
 
             return response()->json([

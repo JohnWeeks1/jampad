@@ -54,22 +54,29 @@ class UserService extends Controller
 
     public function updateUserImage($user, $request)
     {
-        $image = Image::make($request->file('image'));
+        if($request->hasFile('image')) {
+            $image = Image::make($request->file('image'));
 
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
+            $currentImage = public_path() . '/images/users/' . $user->image;
+            if (file_exists($currentImage)) {
+                unlink($currentImage);
+            }
 
-        $image->crop(
-            ceil($request->width),
-            ceil($request->height),
-            ceil($request->left),
-            ceil($request->top)
-        );
-        $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
-        $image->save(public_path() . '/images/users/' . $name);
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
 
-        $user->image = $name;
+            $image->crop(
+                ceil($request->width),
+                ceil($request->height),
+                ceil($request->left),
+                ceil($request->top)
+            );
+            $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
+            $image->save(public_path() . '/images/users/' . $name);
 
-        $user->save();
+            $user->image = $name;
+
+            $user->save();
+        }
     }
 }
