@@ -42,6 +42,19 @@ class UserController extends Controller
     }
 
     /**
+     * Get user profile picture.
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function image(Request $request)
+    {
+        $destination = public_path() . '/images/users/' . $request->user()->image;
+        return response()->file($destination, ['Content-Type' => 'image/jpg']);
+    }
+
+    /**
      * Store user data or image.
      *
      * @param Request $request
