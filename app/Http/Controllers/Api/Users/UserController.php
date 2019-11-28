@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -51,22 +53,23 @@ class UserController extends Controller
     public function image(Request $request)
     {
         $destination = public_path() . '/images/users/' . $request->user()->image;
+
         return response()->file($destination);
     }
 
     /**
      * Store user data or image.
      *
-     * @param Request $request
+     * @param StoreUserRequest $request
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $id)
+    public function store(StoreUserRequest $request, $id)
     {
         $user = $this->userService->findOrFail($id);
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $this->userService->updateUserImage($user, $request);
 
             return response()->json([
@@ -75,10 +78,22 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update User.
+     *
+     * @param UpdateUserRequest $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = $this->userService->findOrFail($id);
 
         $this->userService->updateUserDetails($user, $request);
+
+        return response()->json([
+            'success' => 'ok'
+        ]);
     }
 }

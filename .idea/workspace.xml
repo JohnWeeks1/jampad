@@ -4,9 +4,7 @@
     <list default="true" id="4a16934d-a7be-4499-acc7-68f1e48ee131" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Users/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Users/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/UserService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/UserService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/users/John_Weeks_1574648076.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/users/John_Weeks_1574648559.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/users/John_Weeks_1574810024.jpg" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -146,19 +144,13 @@
       <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1440" />
-    <option name="y" value="-306" />
-    <option name="width" value="907" />
-    <option name="height" value="1057" />
-  </component>
   <component name="ProjectId" id="1RWQUqBLPOy2M5w6QCteZay1yAj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jampad-frontend" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
@@ -218,7 +210,9 @@
       <workItem from="1574205479559" duration="607000" />
       <workItem from="1574206405250" duration="11190000" />
       <workItem from="1574620708550" duration="19211000" />
-      <workItem from="1574798169323" duration="7074000" />
+      <workItem from="1574798169323" duration="7080000" />
+      <workItem from="1574819030911" duration="762000" />
+      <workItem from="1574885270874" duration="6749000" />
     </task>
     <servers />
   </component>
