@@ -57,9 +57,11 @@ class UserService extends Controller
         if($request->hasFile('image')) {
             $image = Image::make($request->file('image'));
 
-            $currentImage = public_path() . '/images/users/' . $user->image;
-            if (file_exists($currentImage)) {
-                unlink($currentImage);
+            if (!empty($user->image)) {
+                $currentImage = public_path() . '/images/users/' . $user->image;
+                if (file_exists($currentImage)) {
+                    unlink($currentImage);
+                }
             }
 
             $file = $request->file('image');

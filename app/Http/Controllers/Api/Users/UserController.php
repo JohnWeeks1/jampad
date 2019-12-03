@@ -52,9 +52,8 @@ class UserController extends Controller
      */
     public function image(Request $request)
     {
-        $destination = public_path() . '/images/users/' . $request->user()->image;
-
-        return response()->file($destination);
+            $destination = public_path() . '/images/users/' . $request->user()->image;
+            return response()->file($destination);
     }
 
     /**
