@@ -38,11 +38,48 @@ class UserService extends Controller
         return $this->repository->findOrFail($id);
     }
 
+    /**
+     * Save function.
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        return  $this->repository->save();
+    }
+
+    /**
+     * Create function.
+     *
+     * @param $array
+     *
+     * @return mixed
+     */
+    public function create($array)
+    {
+        return  $this->repository->create($array);
+    }
+
+    /**
+     * Get full name.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
     public function fullName(Request $request)
     {
         return $request->user()->first_name . ' ' . $request->user()->last_name;
     }
 
+    /**
+     * Update user details.
+     *
+     * @param $user
+     * @param $request
+     *
+     * @return void
+     */
     public function updateUserDetails($user, $request)
     {
         $user->first_name  = $request->first_name;
@@ -52,9 +89,17 @@ class UserService extends Controller
         $user->save();
     }
 
+    /**
+     * Update user image function.
+     *
+     * @param $user
+     * @param $request
+     *
+     * @return void
+     */
     public function updateUserImage($user, $request)
     {
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $image = Image::make($request->file('image'));
 
             if (!empty($user->image)) {
@@ -73,7 +118,7 @@ class UserService extends Controller
                 ceil($request->left),
                 ceil($request->top)
             );
-            $name = $request->user()->first_name . '_' . $request->user()->last_name . '_' . time() . '.' . $extension;
+            $name = auth()->user()->first_name . '_' . auth()->user()->last_name . '_' . time() . '.' . $extension;
             $image->save(public_path() . '/images/users/' . $name);
 
             $user->image = $name;

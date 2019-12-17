@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Users;
 
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Users\StoreUserRequest;
@@ -36,11 +37,9 @@ class UserController extends Controller
      *
      * @return UserResource
      */
-    public function index(Request $request)
+    public function index()
     {
-        $user = $this->userService->findOrFail($request->user()->id);
-
-        return New UserResource($user);
+        return new UserResource(Auth::user());
     }
 
     /**
@@ -52,8 +51,12 @@ class UserController extends Controller
      */
     public function image(Request $request)
     {
+        if (!empty($request->user()->image)) {
             $destination = public_path() . '/images/users/' . $request->user()->image;
             return response()->file($destination);
+        }
+
+        return response()->json(['image' => null]);
     }
 
     /**
@@ -71,9 +74,7 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $this->userService->updateUserImage($user, $request);
 
-            return response()->json([
-                'user_image' => 'OK'
-            ]);
+            return response()->json(['image' => 'success']);
         }
     }
 
@@ -91,8 +92,6 @@ class UserController extends Controller
 
         $this->userService->updateUserDetails($user, $request);
 
-        return response()->json([
-            'success' => 'ok'
-        ]);
+        return response()->json(['image' => 'success']);
     }
 }
