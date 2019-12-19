@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Users;
 
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Users\StoreUserRequest;
@@ -37,10 +36,14 @@ class UserController extends Controller
      *
      * @return UserResource
      */
-    public function index()
-    {
-        return new UserResource(Auth::user());
-    }
+//    public function index()
+//    {
+//        if(!auth()->user()) {
+//            return response()->json(['error' => 'Something went wrong.']);
+//        }
+//
+//        return response()->json($this->guard()->user());
+//    }
 
     /**
      * Get user profile picture.

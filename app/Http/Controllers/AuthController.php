@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 
@@ -28,6 +28,8 @@ class AuthController extends Controller
      */
     public function __construct(UserService $userService)
     {
+        $this->middleware('auth:api', ['except' => ['register', 'login']]);
+
         $this->userService = $userService;
     }
 
@@ -49,50 +51,78 @@ class AuthController extends Controller
     }
 
     /**
-     * Login user and create token.
+     * Get a JWT token via given credentials.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginUserRequest $request)
+    public function login(Request $request)
     {
-        $credentials = [
-            'email'    => $request->get('email'),
-            'password' => $request->get('password')
-        ];
+        $credentials = $request->only('email', 'password');
 
-        if (!auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if ($token = $this->guard()->attempt($credentials)) {
+            return $this->respondWithToken($token);
         }
 
-        $user = auth()->user();
-        $tokenResult = $user->createToken($request->get('email') . time());
-        $token = $tokenResult->token;
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
 
-        if ($request->get('remember_me')) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
-            $token->save();
-        }
+    /**
+     * Get the authenticated User
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function user()
+    {
+        return response()->json($this->guard()->user());
+    }
 
+    /**
+     * Log the user out (Invalidate the token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken($this->guard()->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type'   => 'Bearer',
-            'expires_at'   => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 
     /**
-     * Logout user (Revoke the token)
+     * Get the guard to be used during authentication.
      *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Auth\Guard
      */
-    public function logout(Request $request)
+    public function guard()
     {
-        $request->user()->token()->revoke();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        return Auth::guard();
     }
 }

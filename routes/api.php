@@ -14,18 +14,19 @@ use Illuminate\Http\Request;
 */
 
 Route::group([
-    'prefix' => 'auth'
-], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
-});
 
-Route::group([
-    'middleware' => 'auth:api'
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
 ], function () {
-    Route::get('logout', 'AuthController@logout');
-    Route::get('user', 'Api\Users\UserController@index');
+
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('user', 'AuthController@user');
     Route::get('image', 'Api\Users\UserController@image');
     Route::patch('user/{id}', 'Api\Users\UserController@update');
     Route::post('user/{id}', 'Api\Users\UserController@store');
+
 });

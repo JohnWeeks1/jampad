@@ -9,13 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.0",
-        "laravel/passport": "^7.5",
         "laravel/tinker": "^1.0",
         "spatie/laravel-cors": "^1.6",
-        "ext-json": "*"
+        "tymon/jwt-auth": "1.0.0-rc.5"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
