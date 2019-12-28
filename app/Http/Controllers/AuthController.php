@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginUserRequest;
@@ -12,7 +11,7 @@ use App\Http\Requests\Auth\RegisterUserRequest;
 class AuthController extends Controller
 {
 
-    /**
+    /**`
      * User Service Instance.
      *
      * @var UserService
@@ -34,6 +33,8 @@ class AuthController extends Controller
     }
 
     /**
+     * Register user.
+     *
      * @param RegisterUserRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -53,11 +54,11 @@ class AuthController extends Controller
     /**
      * Get a JWT token via given credentials.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param LoginUserRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
         $credentials = $request->only('email', 'password');
 

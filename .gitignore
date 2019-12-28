@@ -11,3 +11,8 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 docker/docker-volumes/db
+.idea/jampad.iml
+.idea/php.xml
+.idea/symfony2.xml
+.idea/workspace.xml
+composer.lock

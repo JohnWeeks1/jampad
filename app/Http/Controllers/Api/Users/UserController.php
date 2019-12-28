@@ -30,22 +30,6 @@ class UserController extends Controller
     }
 
     /**
-     * Find user by id.
-     *
-     * @param Request $request
-     *
-     * @return UserResource
-     */
-//    public function index()
-//    {
-//        if(!auth()->user()) {
-//            return response()->json(['error' => 'Something went wrong.']);
-//        }
-//
-//        return response()->json($this->guard()->user());
-//    }
-
-    /**
      * Get user profile picture.
      *
      * @param Request $request
