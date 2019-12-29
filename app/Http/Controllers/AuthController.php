@@ -3,10 +3,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Users\Registration;
+use App\Jobs\SendMailJob;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 
@@ -52,7 +51,8 @@ class AuthController extends Controller
 
         $user = $this->userService->findOrFail($user->id);
 
-        Mail::to($user->email)->send(new Registration($user));
+        dispatch(new SendMailJob($user))
+            ->delay(now()->addSeconds(5));
 
         return response()->json(['message' => 'Successfully created user!'], 201);
     }
