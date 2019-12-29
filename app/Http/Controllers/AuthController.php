@@ -3,8 +3,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Users\Registration;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 
@@ -41,12 +43,16 @@ class AuthController extends Controller
      */
     public function register(RegisterUserRequest $request)
     {
-        $this->userService->create([
+        $user = $this->userService->create([
             'first_name' => $request->get('first_name'),
             'last_name'  => $request->get('last_name'),
             'email'      => $request->get('email'),
             'password'   => bcrypt($request->get('password'))
         ]);
+
+        $user = $this->userService->findOrFail($user->id);
+
+        Mail::to($user->email)->send(new Registration($user));
 
         return response()->json(['message' => 'Successfully created user!'], 201);
     }
