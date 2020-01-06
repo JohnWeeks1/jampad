@@ -13,20 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group([
+Route::middleware('api')->prefix('auth')->group(function () {
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
+    Route::post('register', 'AuthController@register')->name('register');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('logout', 'AuthController@logout')->name('logout');
+    Route::post('refresh', 'AuthController@refresh')->name('refresh');
 
-], function () {
+    Route::post('user', 'Api\Users\UserController@index')->name('api.users.user.index');
+    Route::get('image', 'Api\Users\UserController@image')->name('api.users.user.image');
+    Route::patch('user/{id}', 'Api\Users\UserController@update')->name('api.users.user.update');
+    Route::post('user/{id}', 'Api\Users\UserController@store')->name('api.users.user.store');
 
-    Route::post('register', 'AuthController@register');
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('user', 'AuthController@user');
-    Route::get('image', 'Api\Users\UserController@image');
-    Route::patch('user/{id}', 'Api\Users\UserController@update');
-    Route::post('user/{id}', 'Api\Users\UserController@store');
+    Route::get('song/{id}', 'Api\Songs\SongController@songById')->name('api.songs.song.song-by-id');
 
 });

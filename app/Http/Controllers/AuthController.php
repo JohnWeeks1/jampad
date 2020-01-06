@@ -76,16 +76,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function user()
-    {
-        return response()->json($this->guard()->user());
-    }
-
-    /**
      * Log the user out (Invalidate the token)
      *
      * @return \Illuminate\Http\JsonResponse

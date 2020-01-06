@@ -30,6 +30,16 @@ class UserController extends Controller
     }
 
     /**
+     * The user index response.
+     *
+     * @return UserResource
+     */
+    public function index()
+    {
+        return new UserResource(auth()->user());
+    }
+
+    /**
      * Get user profile picture.
      *
      * @param Request $request

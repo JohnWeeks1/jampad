@@ -56,6 +56,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function songs()
+    {
+        $this->hasMany('App/Song');
+    }
 }
 
 
