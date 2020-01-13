@@ -26,5 +26,7 @@ Route::middleware('api')->prefix('auth')->group(function () {
     Route::post('user/{id}', 'Api\Users\UserController@store')->name('api.users.user.store');
 
     Route::get('song/{id}', 'Api\Songs\SongController@songById')->name('api.songs.song.song-by-id');
+    Route::get('songs/{userId}', 'Api\Songs\SongController@songsByUserId')->name('api.songs.song.songs-by-user-id');
+    Route::post('add-song/{userId}', 'Api\Songs\SongController@store')->name('api.users.user.store');
 
 });

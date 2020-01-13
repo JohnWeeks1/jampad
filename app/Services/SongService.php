@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Song;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Intervention\Image\Facades\Image;
 
 class SongService extends Controller
 {
@@ -24,6 +23,18 @@ class SongService extends Controller
     public function __construct(Song $song)
     {
         $this->repository = $song;
+    }
+
+    /**
+     * Find song by id.
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function where($id)
+    {
+        return $this->repository->where($id);
     }
 
     /**

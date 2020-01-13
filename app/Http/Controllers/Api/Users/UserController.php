@@ -50,6 +50,7 @@ class UserController extends Controller
     {
         if (!empty($request->user()->image)) {
             $destination = public_path() . '/images/users/' . $request->user()->image;
+
             return response()->file($destination);
         }
 
@@ -73,6 +74,8 @@ class UserController extends Controller
 
             return response()->json(['image' => 'success']);
         }
+
+        return response()->json(['image' => null]);
     }
 
     /**
