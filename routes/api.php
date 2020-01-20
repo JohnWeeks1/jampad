@@ -21,7 +21,7 @@ Route::middleware('api')->prefix('auth')->group(function () {
     Route::post('refresh', 'AuthController@refresh')->name('refresh');
 
     Route::post('user', 'Api\Users\UserController@index')->name('api.users.user.index');
-    Route::get('image', 'Api\Users\UserController@image')->name('api.users.user.image');
+    Route::get('user/{id}/image', 'Api\Users\UserController@image')->name('api.users.user.image');
     Route::patch('user/{id}', 'Api\Users\UserController@update')->name('api.users.user.update');
     Route::post('user/{id}', 'Api\Users\UserController@store')->name('api.users.user.store');
 

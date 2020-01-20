@@ -2,6 +2,7 @@
 
 namespace App;
 
+//use JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -56,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+//    public function authUser()
+//    {
+//        return JWTAuth::toUser(JWTAuth::getToken());
+//    }
 
     public function songs()
     {

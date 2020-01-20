@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers\Api\Users;
 
-use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
@@ -42,19 +41,21 @@ class UserController extends Controller
     /**
      * Get user profile picture.
      *
-     * @param Request $request
+     * @param $id
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function image(Request $request)
+    public function image($id)
     {
-        if (!empty($request->user()->image)) {
-            $destination = public_path() . '/images/users/' . $request->user()->image;
+        $user = $this->userService->findOrFail($id);
 
-            return response()->file($destination);
+        if (is_null($user->image)) {
+            return response()->json(['image' => null]);
         }
 
-        return response()->json(['image' => null]);
+        $destination = public_path() . '/images/users/' . $user->image;
+
+        return response()->file($destination);
     }
 
     /**

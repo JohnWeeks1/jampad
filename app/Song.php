@@ -12,7 +12,7 @@ class Song extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'path'
+        'id', 'user_id', 'name', 'path'
     ];
 
     public function user()

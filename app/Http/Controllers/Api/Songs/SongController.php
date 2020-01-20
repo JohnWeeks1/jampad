@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Songs;
 
+use App\Http\Resources\Song\SongsByUserIdResource;
 use App\Services\UserService;
 use App\Song;
 use Illuminate\Http\Request;
@@ -70,34 +71,34 @@ class SongController extends Controller
      */
     public function songById($id)
     {
+
         $song = $this->songService->findOrFail($id);
-        $user = $this->userService->findOrFail($id);
+        $user = $this->userService->findOrFail($song->user_id);
 
-        if (!empty($song->path)) {
-            $user_folder = strtolower($user->first_name) . '-' . strtolower($user->last_name);
-            $destination = public_path() . '/songs/' . $user_folder . '/' . $song->path;
-            return response()->file($destination);
+        if (is_null($song->path)) {
+            return response()->json(['song' => null]);
         }
+        $user_folder = strtolower($user->first_name) . '-' . strtolower($user->last_name);
+        $destination = public_path() . '/songs/' . $user_folder . '/' . $song->path;
 
-        return response()->json(['song' => null]);
+        return response()->file($destination);
     }
 
     /**
-     * Get song by id.
+     * Get song by user id.
      *
      * @param $id
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return SongsByUserIdResource|\Illuminate\Http\JsonResponse
      */
     public function songsByUserId($id)
     {
-        $user  = $this->userService->findOrFail($id);
         $songs = Song::where('user_id', $id)->get();
 
-        if (!empty($songs)) {
-            return response()->json($songs);
+        if (is_null($songs)) {
+            return response()->json(['song' => null]);
         }
 
-        return response()->json(['song' => null]);
+        return new SongsByUserIdResource(collect($songs));
     }
 }

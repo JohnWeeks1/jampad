@@ -5,10 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Songs/SongController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Songs/SongController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/Users/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/Users/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/SongService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/SongService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Song.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Song.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/users/John_Weeks_1578275485.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/songs/Scream.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/users/John_Weeks_1578782702.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -161,16 +161,16 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/images/users" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Api/Songs" />
       <recent name="$PROJECT_DIR$/app/Http/Resources/User" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers" />
       <recent name="$PROJECT_DIR$/app" />
-      <recent name="$PROJECT_DIR$/app/Models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/Services" />
-      <recent name="$PROJECT_DIR$/resources/views/layouts" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers" />
+      <recent name="$PROJECT_DIR$/resources/views/layouts" />
     </key>
   </component>
   <component name="RunManager">
@@ -228,6 +228,7 @@
       <workItem from="1578169370887" duration="10152000" />
       <workItem from="1578341563582" duration="2859000" />
       <workItem from="1578779404679" duration="33177000" />
+      <workItem from="1579446196305" duration="6676000" />
     </task>
     <servers />
   </component>
@@ -262,14 +263,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="169" width="530" height="383" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1578240576545">
+    <state x="413" y="169" width="530" height="383" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1579037832371">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="169" width="530" height="383" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1578240576545" />
-    <state x="435" y="0" width="476" height="723" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1577637240786">
+    <state x="413" y="169" width="530" height="383" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1579037832371" />
+    <state x="435" y="0" width="476" height="723" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1579042218078">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="435" y="0" width="476" height="723" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1577637240786" />
+    <state x="435" y="0" width="476" height="723" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1579042218078" />
     <state x="416" y="113" width="524" height="495" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1577662065834">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -282,21 +283,21 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="466" y="121" width="424" height="479" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1577913732095" />
-    <state x="366" y="190" key="com.intellij.ide.util.TipDialog" timestamp="1578341568139">
+    <state x="366" y="190" key="com.intellij.ide.util.TipDialog" timestamp="1579449726997">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="366" y="190" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1578341568139" />
+    <state x="366" y="190" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1579449726997" />
     <state x="166" y="0" width="683" height="723" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1578784960301">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="166" y="0" width="683" height="723" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1578784960301" />
-    <state x="189" y="99" width="791" height="590" key="find.popup" timestamp="1578861109657">
+    <state x="189" y="99" width="791" height="590" key="find.popup" timestamp="1579038685916">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="189" y="99" width="791" height="590" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1578861109657" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1578785139819">
+    <state x="189" y="99" width="791" height="590" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1579038685916" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1579035040831">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1578785139819" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1579035040831" />
   </component>
 </project>
