@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Songs;
 
-use App\Http\Resources\Song\SongsByUserIdResource;
-use App\Services\UserService;
 use App\Song;
 use Illuminate\Http\Request;
+use App\Services\UserService;
 use App\Services\SongService;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Song\SongsByUserIdResource;
 
 class SongController extends Controller
 {
@@ -62,6 +62,25 @@ class SongController extends Controller
         }
     }
 
+    public function destroy(Request $request, $id)
+    {
+        $song = $this->songService->findOrFail($id);
+        $user = $this->userService->findOrFail($song->user_id);
+
+        $destination = $this->getSongPath($song, $user);
+
+        if (file_exists($destination)) {
+            unlink($destination);
+            $song->delete();
+        }
+    }
+
+    public function getSongPath($song, $user)
+    {
+        $user_folder = strtolower($user->first_name) . '-' . strtolower($user->last_name);
+        return public_path() . '/songs/' . $user_folder . '/' . $song->path;
+    }
+
     /**
      * Get song by id.
      *
@@ -78,8 +97,7 @@ class SongController extends Controller
         if (is_null($song->path)) {
             return response()->json(['song' => null]);
         }
-        $user_folder = strtolower($user->first_name) . '-' . strtolower($user->last_name);
-        $destination = public_path() . '/songs/' . $user_folder . '/' . $song->path;
+        $destination = $this->getSongPath($song, $user);
 
         return response()->file($destination);
     }
