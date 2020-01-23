@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\SongService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Songs\StoreSongRequest;
 use App\Http\Resources\Song\SongsByUserIdResource;
 
 class SongController extends Controller
@@ -44,7 +45,7 @@ class SongController extends Controller
      * @param Request $request
      * @param $id
      */
-    public function store(Request $request, $id)
+    public function store(StoreSongRequest $request, $id)
     {
         if($file = $request->file('song')){
 
@@ -56,7 +57,7 @@ class SongController extends Controller
 
             $this->songService->create([
                 'user_id' => $id,
-                'name'    => $request->get('title'),
+                'title'    => $request->get('title'),
                 'path'    => $song,
             ]);
         }
