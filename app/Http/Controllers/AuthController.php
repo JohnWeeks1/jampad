@@ -3,34 +3,20 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Jobs\SendMailJob;
-use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 
 class AuthController extends Controller
 {
-
-    /**`
-     * User Service Instance.
-     *
-     * @var UserService
-     */
-    protected $userService;
-
     /**
      * AuthController constructor.
-     *
-     * @param UserService $userService
-     *
-     * @return void
      */
-    public function __construct(UserService $userService)
+    public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['register', 'login']]);
-
-        $this->userService = $userService;
     }
 
     /**
@@ -42,14 +28,14 @@ class AuthController extends Controller
      */
     public function register(RegisterUserRequest $request)
     {
-        $user = $this->userService->create([
+        $user = User::create([
             'first_name' => $request->get('first_name'),
             'last_name'  => $request->get('last_name'),
             'email'      => $request->get('email'),
             'password'   => bcrypt($request->get('password'))
         ]);
 
-        $user = $this->userService->findOrFail($user->id);
+        $user = User::findOrFail($user->id);
 
         dispatch(new SendMailJob($user))
             ->delay(now()->addSeconds(5));
@@ -116,7 +102,7 @@ class AuthController extends Controller
     /**
      * Get the guard to be used during authentication.
      *
-     * @return \Illuminate\Contracts\Auth\Guard
+     * @return mixed
      */
     public function guard()
     {

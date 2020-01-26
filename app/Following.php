@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Youtube extends Model
+class Following extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,11 +12,11 @@ class Youtube extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'url'
+        'user_id', 'following_user_id',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->hasOne(User::class);
+        return $this->hasMany(User::class, 'id', 'following_user_id');
     }
 }

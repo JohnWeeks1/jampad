@@ -17,6 +17,6 @@ class Song extends Model
 
     public function user()
     {
-        $this->belongsTo('App/User');
+        return $this->belongsTo(User::class);
     }
 }
