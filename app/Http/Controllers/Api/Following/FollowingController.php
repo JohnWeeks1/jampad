@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Following;
 
-use App\User;
 use App\Following;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

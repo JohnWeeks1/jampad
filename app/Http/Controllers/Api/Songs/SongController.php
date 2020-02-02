@@ -6,14 +6,29 @@ use App\Song;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Song\SongsResource;
 use App\Http\Requests\Songs\StoreSongRequest;
 use App\Http\Resources\Song\SongsByUserIdResource;
 
 class SongController extends Controller
 {
     /**
+     * All songs.
+     *
+     * @return SongsResource
+     */
+    public function index()
+    {
+        return new SongsResource(Song::all());
+    }
+
+    /**
+     * Store function.
+     *
      * @param StoreSongRequest $request
      * @param $id
+     *
+     * return void
      */
     public function store(StoreSongRequest $request, $id)
     {
