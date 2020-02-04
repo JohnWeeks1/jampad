@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers\Api\Youtube;
 
-use App\Http\Requests\Youtube\StoreYoutubeRequest;
-use App\Youtube;
-use Illuminate\Http\Request;
+use App\Services\YoutubeService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Youtube\StoreYoutubeRequest;
 
 class YoutubeController extends Controller
 {
     /**
+     * Youtube service instance.
+     *
+     * @var YoutubeService
+     */
+    protected $youtubeService;
+
+    /**
+     * YoutubeController constructor.
+     *
+     * @param YoutubeService $youtubeService
+     */
+    public function __construct(YoutubeService $youtubeService)
+    {
+        $this->youtubeService = $youtubeService;
+    }
+
+    /**
+     * Show function.
+     *
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $youtube = Youtube::where('user_id', $id)->get();
+        $youtube = $this->youtubeService->where('user_id', $id)->get();
 
         return response()->json($youtube);
     }
@@ -24,13 +42,11 @@ class YoutubeController extends Controller
     /**
      * Store function.
      *
-     * @param Request $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreYoutubeRequest $request)
     {
-        Youtube::create([
+        $this->youtubeService->create([
             'user_id' => $request->get('user_id'),
             'title'   => $request->get('title'),
             'url'     => "https://www.youtube.com/embed/" . $request->get('url') . "?autoplay=0",
@@ -44,14 +60,13 @@ class YoutubeController extends Controller
     /**
      * Destroy function.
      *
-     * @param Request $request
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $youtube = Youtube::findOrFail($id);
+        $youtube = $this->youtubeService->findOrFail($id);
         $youtube->delete();
 
         return response()->json([

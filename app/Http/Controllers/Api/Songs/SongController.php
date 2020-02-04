@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api\Songs;
 
-use App\Song;
-use App\User;
-use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Services\SongService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Song\SongsResource;
 use App\Http\Requests\Songs\StoreSongRequest;
@@ -13,13 +12,39 @@ use App\Http\Resources\Song\SongsByUserIdResource;
 class SongController extends Controller
 {
     /**
+     * Song service instance.
+     *
+     * @var SongService
+     */
+    protected $songService;
+
+    /**
+     * User service instance.
+     *
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * SongController constructor.
+     *
+     * @param SongService $songService
+     * @param UserService $userService
+     */
+    public function __construct(SongService $songService, UserService $userService)
+    {
+        $this->songService = $songService;
+        $this->userService = $userService;
+    }
+
+    /**
      * All songs.
      *
      * @return SongsResource
      */
     public function index()
     {
-        return new SongsResource(Song::all());
+        return new SongsResource($this->songService->all());
     }
 
     /**
@@ -34,24 +59,24 @@ class SongController extends Controller
     {
         if($file = $request->file('song')){
 
-            $user = User::findOrFail($id);
+            $user = $this->userService->findOrFail($id);
 
             $song = $file->getClientOriginalName();
             $user_folder = strtolower($user->first_name) . '-' . strtolower($user->last_name);
             $file->move('songs/' . $user_folder, $song);
 
-            Song::create([
+            $this->songService->create([
                 'user_id' => $id,
-                'title'    => $request->get('title'),
+                'title'   => $request->get('title'),
                 'path'    => $song,
             ]);
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $song = Song::findOrFail($id);
-        $user = User::findOrFail($song->user_id);
+        $song = $this->songService->findOrFail($id);
+        $user = $this->userService->findOrFail($song->user_id);
 
         $destination = $this->getSongPath($song, $user);
 
@@ -77,8 +102,8 @@ class SongController extends Controller
     public function songById($id)
     {
 
-        $song = Song::findOrFail($id);
-        $user = User::findOrFail($song->user_id);
+        $song = $this->songService->findOrFail($id);
+        $user = $this->userService->findOrFail($song->user_id);
 
         if (is_null($song->path)) {
             return response()->json(['song' => null]);
@@ -97,7 +122,7 @@ class SongController extends Controller
      */
     public function songsByUserId($id)
     {
-        $songs = Song::where('user_id', $id)->get();
+        $songs = $this->songService->where('user_id', $id)->get();
 
         if (is_null($songs)) {
             return response()->json(['song' => null]);

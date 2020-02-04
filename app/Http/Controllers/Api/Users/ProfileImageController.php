@@ -2,26 +2,41 @@
 
 namespace App\Http\Controllers\Api\Users;
 
-use App\Http\Requests\Users\StoreUserRequest;
-use App\Http\Resources\ErrorResource;
-use App\User;
-use Illuminate\Http\Request;
+use App\Services\UserService;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use App\Http\Requests\Users\StoreUserRequest;
 
 class ProfileImageController extends Controller
 {
     /**
-     * Store user data or image.
+     * User service instance.
+     *
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * SongController constructor.
+     *
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    /**
+     * Store function.
      *
      * @param StoreUserRequest $request
      * @param $id
      *
-     * @return ErrorResource|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreUserRequest $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userService->findOrFail($id);
 
         if ($request->hasFile('image')) {
             $this->updateUserImage($user, $request);
@@ -29,7 +44,7 @@ class ProfileImageController extends Controller
             return response()->json(['image' => 'success']);
         }
 
-        return new ErrorResource('No image');
+        return response()->json(['image' => null]);
     }
 
     /**
@@ -41,7 +56,7 @@ class ProfileImageController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userService->findOrFail($id);
 
         if (is_null($user->image)) {
             return response()->json(['image' => null]);

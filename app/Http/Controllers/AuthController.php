@@ -3,8 +3,8 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Jobs\SendMailJob;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
@@ -12,11 +12,22 @@ use App\Http\Requests\Auth\RegisterUserRequest;
 class AuthController extends Controller
 {
     /**
-     * AuthController constructor.
+     * User service instance.
+     *
+     * @var UserService
      */
-    public function __construct()
+    protected $userService;
+
+    /**
+     * AuthController constructor.
+     *
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
     {
         $this->middleware('auth:api', ['except' => ['register', 'login']]);
+
+        $this->userService = $userService;
     }
 
     /**
@@ -28,14 +39,14 @@ class AuthController extends Controller
      */
     public function register(RegisterUserRequest $request)
     {
-        $user = User::create([
+        $user = $this->userService->create([
             'first_name' => $request->get('first_name'),
             'last_name'  => $request->get('last_name'),
             'email'      => $request->get('email'),
             'password'   => bcrypt($request->get('password'))
         ]);
 
-        $user = User::findOrFail($user->id);
+        $user = $this->userService->findOrFail($user->id);
 
         dispatch(new SendMailJob($user))
             ->delay(now()->addSeconds(5));
@@ -94,8 +105,8 @@ class AuthController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 
