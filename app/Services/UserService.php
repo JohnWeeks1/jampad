@@ -76,6 +76,7 @@ class UserService extends BaseService
             ceil($request->left),
             ceil($request->top)
         );
+        
         $name = $user->id . '_' . time() . '.' . $extension;
         $image->save(public_path() . '/images/users/' . $name);
 
