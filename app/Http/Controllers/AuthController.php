@@ -3,8 +3,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendMailJob;
+use App\Mail\Users\Registration;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
@@ -48,8 +49,8 @@ class AuthController extends Controller
 
         $user = $this->userService->findOrFail($user->id);
 
-        dispatch(new SendMailJob($user))
-            ->delay(now()->addSeconds(5));
+        Mail::to($request->get('first_name'))
+            ->send(new Registration($request->user()));
 
         return response()->json(['message' => 'Successfully created user!'], 201);
     }
@@ -106,7 +107,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => $this->guard()->factory()->getTTL() * 60
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60 * 60 * 7
         ]);
     }
 

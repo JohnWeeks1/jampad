@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Users;
+namespace App\Http\Controllers\Api;
 
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
@@ -49,27 +49,8 @@ class UserController extends Controller
     {
         $user = $this->userService->findOrFail($id);
 
-        $this->updateUserDetails($user, $request);
+        $this->userService->updateUserDetails($user, $request);
 
         return response()->json(['image' => 'success']);
     }
-
-    /**
-     * Update user details.
-     *
-     * @param $user
-     * @param $request
-     *
-     * @return void
-     */
-    public function updateUserDetails($user, $request)
-    {
-        $user->first_name  = $request->first_name;
-        $user->last_name   = $request->last_name;
-        $user->description = $request->description;
-
-        $user->save();
-    }
-
-
 }

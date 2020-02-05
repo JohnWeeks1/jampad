@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Youtube;
+namespace App\Http\Controllers\Api;
 
 use App\Services\YoutubeService;
 use App\Http\Controllers\Controller;
@@ -34,7 +34,7 @@ class YoutubeController extends Controller
      */
     public function show($id)
     {
-        $youtube = $this->youtubeService->where('user_id', $id)->get();
+        $youtube = $this->youtubeService->where([['user_id', $id]])->get();
 
         return response()->json($youtube);
     }

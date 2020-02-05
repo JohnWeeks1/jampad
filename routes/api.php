@@ -20,22 +20,23 @@ Route::middleware('api')->prefix('auth')->group(function () {
     Route::post('logout', 'AuthController@logout')->name('logout');
     Route::post('refresh', 'AuthController@refresh')->name('refresh');
 
-    Route::get('image/{id}', 'Api\Users\ProfileImageController@show')->name('api.users.image.show');
+    Route::get('image/{id}', 'Api\ProfileImageController@show')->name('api.image.show');
 
-    Route::post('user', 'Api\Users\UserController@index')->name('api.users.user.index');
-    Route::patch('user/{id}', 'Api\Users\UserController@update')->name('api.users.user.update');
-    Route::post('user/{id}', 'Api\Users\UserController@store')->name('api.users.user.store');
+    Route::post('user', 'Api\UserController@index')->name('api.user.index');
+    Route::patch('user/{id}', 'Api\UserController@update')->name('api.user.update');
+    Route::post('user/{id}', 'Api\ProfileImageController@store')->name('api.users.user.store');
 
-    Route::get('songs', 'Api\Songs\SongController@index')->name('api.songs.song.index');
-    Route::get('song/{id}', 'Api\Songs\SongController@songById')->name('api.songs.song.song-by-id');
-    Route::get('songs/{userId}', 'Api\Songs\SongController@songsByUserId')->name('api.songs.song.songs-by-user-id');
-    Route::post('add-song/{userId}', 'Api\Songs\SongController@store')->name('api.users.user.store');
-    Route::delete('song/{id}', 'Api\Songs\SongController@destroy')->name('api.songs.song.song-by-id');
+    Route::get('songs', 'Api\SongController@index')->name('api.song.index');
+    Route::get('songs/{id}', 'Api\SongController@show')->name('api.song.show');
+    Route::post('songs/{userId}', 'Api\SongController@store')->name('api.user.store');
+    Route::delete('songs/{id}', 'Api\SongController@destroy')->name('api.song.destroy');
 
-    Route::get('youtube/{id}', 'Api\Youtube\YoutubeController@show')->name('api.youtube.youtube.show');
-    Route::post('youtube', 'Api\Youtube\YoutubeController@store')->name('api.youtube.youtube.store');
-    Route::delete('youtube/{id}', 'Api\Youtube\YoutubeController@destroy')->name('api.youtube.youtube.destroy');
+    Route::get('user/{userId}/songs', 'Api\User\SongsController@show')->name('api.user.songs.show');
 
-    Route::get('following/{id}', 'Api\Following\FollowingController@show')->name('api.following.following.show');
+    Route::get('youtube/{id}', 'Api\YoutubeController@show')->name('api.youtube.show');
+    Route::post('youtube', 'Api\YoutubeController@store')->name('api.youtube.store');
+    Route::delete('youtube/{id}', 'Api\YoutubeController@destroy')->name('api.youtube.destroy');
+
+    Route::get('following/{id}', 'Api\FollowingController@show')->name('api.following.show');
 
 });

@@ -46,13 +46,12 @@ abstract class BaseService
     /**
      * Get where.
      *
-     * @param $string
-     * @param $id
+     * @param array $array
      *
      * @return mixed
      */
-    public function where($string, $id)
+    public function where(array $array)
     {
-        return $this->repository->where($string, $id);
+        return $this->repository->where($array);
     }
 }
